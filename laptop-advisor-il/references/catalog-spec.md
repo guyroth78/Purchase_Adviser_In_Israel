@@ -110,7 +110,7 @@
 | `sub_brands[].id`, `.name` | כן | |
 | `sub_brands[].segment` | לא | `business` / `consumer` / `gaming` / `premium` / `workstation` / `education` |
 | `reputation` | לא | משפט על המותג כולו |
-| `service_il`, `warranty_il` | לא | שירות ואחריות טיפוסיים בישראל (יבואן, סוג שירות, משך). `null` עד שנבדק |
+| `service_il`, `warranty_il` | לא | אובייקט: `summary` (משפט), `length_years`, `service_type` (`onsite` / `pickup` / `lab` / `null`), `provider`, `sources` (רשימה של `url`, `says`, `kind`: `maker` / `store` / `press` / `forum`, `checked`), `notes`. `null` אם לא נמצא |
 | `sub_brands[].profile.tagline` | לא | משפט אחד: מה הסדרה הזאת |
 | `.profile.strengths`, `.weaknesses` | לא | רשימות קצרות, להסבר למשתמש |
 | `.profile.best_for`, `.avoid_if` | לא | למי מתאים ולמי לא |
