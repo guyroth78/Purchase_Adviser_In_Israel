@@ -1,9 +1,9 @@
 ---
-name: laptop-advisor-template
+name: laptop-advisor-il
 description: "Use whenever someone asks for help choosing, buying or comparing a laptop or notebook computer, even casually and without technical detail: 'recommend me a laptop', 'which laptop should I buy', a laptop for work, teaching, university, school, gaming (for example FIFA, GTA), programming, video editing or travel, 'something durable but not too expensive', or a link to a laptop with 'is this good for me'. Also in Hebrew (מחשב נייד, לפטופ, נייד חדש, איזה מחשב לקנות, תמליץ לי על מחשב). Asks a few short questions about the person's needs, finds current models and prices (Israel-focused catalog plus web), scores them against those needs and builds an interactive page where the person can change weights, filters and price range."
 ---
 
-# Laptop advisor (template version)
+# Laptop advisor (Israel)
 
 Help a person choose a computer, then deliver one interactive decision page (a published Artifact) that shows which models fit their preferences and why. Reply in the person's language.
 

@@ -18,7 +18,7 @@ Skill ל-Claude שעוזר לבחור מחשב נייד. הוא שואל אות�
 
 ## התקנה ב-claude.ai
 
-1. מורידים את הקובץ: **[laptop-advisor-template.zip](https://github.com/guyroth78/Purchase_Adviser_In_Israel/releases/latest/download/laptop-advisor-template.zip)**
+1. מורידים את הקובץ: **[laptop-advisor-il.zip](https://github.com/guyroth78/Purchase_Adviser_In_Israel/releases/latest/download/laptop-advisor-il.zip)**
 2. ב-claude.ai, בהגדרות (Settings > Capabilities), מפעילים הרצת קוד ויצירת קבצים (Code execution and file creation).
 3. נכנסים ל-Customize > Skills, לוחצים על העלאה, ובוחרים את קובץ ה-zip.
 4. פותחים שיחה חדשה וכותבים, למשל: "אני צריכה מחשב נייד לעבודה, משהו עמיד ולא יקר מדי".
