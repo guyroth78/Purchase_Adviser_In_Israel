@@ -1,0 +1,556 @@
+<meta charset="utf-8">
+<title>Laptop Fit Envelope</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Template for the laptop-buying-advisor skill. Edit only the DATA block (and <title>). Layout: one column of working panels — constraints and weights on top, then top picks, scatter, envelope. Utility tool, data first. */
+:root {
+  --bg: #f6f7f8;
+  --surface: #ffffff;
+  --line: #dfe2e6;
+  --line-soft: #eceef1;
+  --fg: #16191d;
+  --fg-2: #4d545c;
+  --fg-3: #7a828b;
+  --accent: #2a78d6;
+  --accent-soft: #e6f0fc;
+  --fail: #b8bec5;
+  --fail-ink: #a03232;
+  --fail-bg: #fbeceb;
+  --pass-ink: #146c2e;
+  --pass-bg: #e7f4ea;
+  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #8a5cd0;
+  --series-5: #d64545; --series-6: #1597a5; --series-7: #c48f0b; --series-8: #cc4f93;
+  --envelope: #16191d;
+  --tint-a: #e6f0c8; --tint-a-edge: #c9db96;
+  --tint-b: #d9e6f7; --tint-b-edge: #b7cdec;
+  --tint-c: #e6dff6; --tint-c-edge: #cdc0ec;
+  --f-body: "IBM Plex Sans Hebrew", "Segoe UI", Arial, sans-serif;
+  --f-num: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121416; --surface: #1b1e21; --line: #30353a; --line-soft: #262a2e;
+    --fg: #eef0f2; --fg-2: #b7bec6; --fg-3: #8a929b;
+    --accent: #3987e5; --accent-soft: #1d2b3d;
+    --fail: #555c63; --fail-ink: #ef8a8a; --fail-bg: #3a2324;
+    --pass-ink: #7fd394; --pass-bg: #1d3324;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #9d76e0;
+    --series-5: #e06060; --series-6: #26aebd; --series-7: #d9a72a; --series-8: #dd6aa8;
+    --envelope: #eef0f2;
+    --tint-a: #252f17; --tint-a-edge: #3f5226;
+    --tint-b: #1a2638; --tint-b-edge: #2c3f5c;
+    --tint-c: #261f3a; --tint-c-edge: #3e335e;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121416; --surface: #1b1e21; --line: #30353a; --line-soft: #262a2e;
+  --fg: #eef0f2; --fg-2: #b7bec6; --fg-3: #8a929b;
+  --accent: #3987e5; --accent-soft: #1d2b3d;
+  --fail: #555c63; --fail-ink: #ef8a8a; --fail-bg: #3a2324;
+  --pass-ink: #7fd394; --pass-bg: #1d3324;
+  --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #9d76e0;
+  --series-5: #e06060; --series-6: #26aebd; --series-7: #d9a72a; --series-8: #dd6aa8;
+  --envelope: #eef0f2;
+  --tint-a: #252f17; --tint-a-edge: #3f5226;
+  --tint-b: #1a2638; --tint-b-edge: #2c3f5c;
+  --tint-c: #261f3a; --tint-c-edge: #3e335e;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--f-body); font-size: 15px; line-height: 1.55;
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 20px;
+}
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0; font-weight: 700; text-wrap: balance; }
+h3 { font-size: 1.1rem; margin: 0; font-weight: 600; }
+/* three stages of the page (needs, preferences, matches), each a tinted band holding its panels */
+.stage { background: var(--stage-bg); border: 1px solid var(--stage-edge); border-radius: 14px; padding: 14px; display: grid; gap: 14px; min-width: 0; }
+.stage-a { --stage-bg: var(--tint-a); --stage-edge: var(--tint-a-edge); }
+.stage-b { --stage-bg: var(--tint-b); --stage-edge: var(--tint-b-edge); }
+.stage-c { --stage-bg: var(--tint-c); --stage-edge: var(--tint-c-edge); }
+.stage-title { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--fg); letter-spacing: 0.01em; text-wrap: balance; }
+.stage-mark { display: inline-grid; place-items: center; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); font-size: 0.85rem; font-weight: 700; }
+@media (max-width: 480px) { .stage { padding: 10px; gap: 10px; } }
+.lede { margin: 6px 0 0; color: var(--fg-2); max-width: 68ch; }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+.panel {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px; display: grid; gap: 14px; min-width: 0;
+}
+.panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.hint { color: var(--fg-3); font-size: 0.85rem; margin: 0; }
+.panel-head { cursor: pointer; }
+.panel-head h3 { flex: 1 1 auto; display: flex; align-items: center; gap: 10px; }
+.collapse-btn { flex: none; width: 28px; height: 28px; padding: 0; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--fg-2); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.collapse-btn:hover { background: var(--line-soft); }
+.collapse-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.collapse-btn::before { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(2px) rotate(-135deg); transition: transform .15s; }
+.panel.collapsed .collapse-btn::before { transform: translateY(-2px) rotate(45deg); }
+.panel.collapsed .hint { display: none; }
+.panel.collapsed > :not(.panel-head) { display: none; }
+.controls { display: grid; grid-template-columns: 1fr 1.4fr; gap: 20px; }
+@media (max-width: 760px) { .controls { grid-template-columns: 1fr; } }
+
+.eyebrow { font-size: 0.75rem; letter-spacing: 0.06em; color: var(--fg-3); font-weight: 600; margin: 0 0 8px; }
+.toggles { display: grid; gap: 8px; }
+.toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--accent); margin: 0; }
+.budget { display: grid; gap: 4px; margin-top: 6px; }
+.cmp-scroll { overflow-x: auto; }
+table.cmp { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 0.9rem; }
+.cmp th, .cmp td { padding: 8px 10px; text-align: start; vertical-align: top; border-bottom: 1px solid var(--line-soft); }
+.cmp thead th { vertical-align: bottom; border-bottom: 1px solid var(--line); }
+.cmp tbody th { color: var(--fg-3); font-weight: 600; font-size: 0.8rem; white-space: nowrap; width: 1%; }
+.cmp .col-name { font-weight: 600; display: block; }
+.cmp .col-meta { color: var(--fg-2); font-family: var(--f-num); font-size: 0.8rem; font-weight: 400; }
+.cmp td.unknown { color: var(--fg-3); }
+.needs { margin: 0; padding-inline-start: 20px; display: grid; gap: 6px; max-width: 80ch; }
+.range2 { position: relative; height: 28px; }
+.range2::before { content: ""; position: absolute; inset-inline: 10px; top: 12px; height: 4px; border-radius: 2px; background: var(--line); }
+.range2-fill { position: absolute; top: 12px; height: 4px; border-radius: 2px; background: var(--accent); }
+.range2 input { position: absolute; inset-inline: 0; top: 0; width: 100%; height: 28px; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
+.range2 input::-webkit-slider-runnable-track { background: transparent; height: 28px; }
+.range2 input::-moz-range-track { background: transparent; height: 28px; }
+.range2 input::-webkit-slider-thumb { pointer-events: auto; -webkit-appearance: none; width: 20px; height: 20px; margin-top: 4px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--accent); cursor: grab; }
+.range2 input::-moz-range-thumb { pointer-events: auto; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--accent); cursor: grab; }
+.range2 input:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--fg); outline-offset: 2px; }
+.range2 input:focus-visible::-moz-range-thumb { outline: 2px solid var(--fg); outline-offset: 2px; }
+.budget-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.weights { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; }
+@media (max-width: 480px) { .weights { grid-template-columns: 1fr; } }
+.w { display: grid; gap: 2px; }
+.w-top { display: flex; justify-content: space-between; gap: 8px; font-size: 0.92rem; }
+.w-val { color: var(--accent); font-weight: 600; }
+.w-need { margin: 0; color: var(--fg-3); font-size: 0.78rem; line-height: 1.35; }
+.chip.added { background: var(--line-soft); color: var(--fg-2); margin-inline-start: 6px; vertical-align: 1px; }
+.chip.value { background: var(--accent-soft); color: var(--accent); margin-inline-start: 6px; vertical-align: 1px; }
+
+.top-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.top-list.scrolls { overflow-y: auto; overscroll-behavior: contain; padding-inline-end: 6px; }
+.top-row { display: grid; grid-template-columns: 32px 1fr auto auto; gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--line-soft); border-radius: 8px; }
+.top-row:first-child { border-color: var(--accent); }
+.rank { font-family: var(--f-num); font-weight: 600; font-size: 1.05rem; color: var(--accent); text-align: center; }
+.top-row .model-name { font-weight: 600; display: block; }
+.model-sub { color: var(--fg-3); font-size: 0.78rem; }
+.top-price { font-family: var(--f-num); color: var(--fg-2); white-space: nowrap; }
+.top-fit { font-family: var(--f-num); font-weight: 600; font-size: 1.05rem; white-space: nowrap; }
+.top-empty { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+@media (max-width: 480px) { .top-row { grid-template-columns: 28px 1fr auto; } .top-price { grid-column: 2; grid-row: 2; } .top-fit { grid-row: 1 / span 2; grid-column: 3; } }
+.chip { display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; padding: 2px 8px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+.chip.pass { background: var(--pass-bg); color: var(--pass-ink); }
+.chip.fail { background: var(--fail-bg); color: var(--fail-ink); }
+
+.pick { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pick-label { font-size: 0.78rem; color: var(--fg-3); }
+.pick-chip { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 0.8rem; line-height: 1.3; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg-3); cursor: pointer; }
+.pick-chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--fg); }
+.pick-chip.is-fail { border-style: dashed; }
+.pick-chip .swatch { width: 10px; height: 10px; opacity: 0.35; }
+.pick-chip[aria-pressed="true"] .swatch { opacity: 1; }
+.pick-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 0.82rem; color: var(--fg-2); }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.swatch.ring { background: transparent; border: 2px solid var(--fail); }
+.swatch.line { width: 18px; height: 0; border-top: 2px dashed var(--envelope); border-radius: 0; }
+
+.charts { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
+@media (max-width: 860px) { .charts { grid-template-columns: 1fr; } }
+svg { direction: ltr; display: block; width: 100%; height: auto; max-width: 100%; overflow: visible; }
+svg text { font-family: var(--f-body); fill: var(--fg-2); font-size: 11px; }
+svg .axis-num { font-family: var(--f-num); fill: var(--fg-3); }
+svg .lbl { fill: var(--fg); font-size: 11.5px; font-weight: 600; }
+svg .lbl.dim { fill: var(--fg-3); font-weight: 500; }
+.tip {
+  position: fixed; z-index: 20; pointer-events: none; background: var(--fg); color: var(--bg);
+  font-size: 0.8rem; padding: 6px 10px; border-radius: 6px; max-width: 260px; line-height: 1.4;
+}
+.sources { margin: 0; font-size: 0.82rem; color: var(--fg-2); }
+.sources strong { font-weight: 600; }
+.notes { font-size: 0.82rem; color: var(--fg-3); display: grid; gap: 4px; }
+.notes p { margin: 0; max-width: 90ch; }
+@media (prefers-reduced-motion: no-preference) { circle.dot, polygon.shape { transition: opacity .15s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1 id="t-title"></h1>
+    <p class="lede" id="t-lede"></p>
+  </header>
+
+  <section class="stage stage-a" id="stage-needs" aria-labelledby="s-needs" hidden>
+    <h2 class="stage-title" id="s-needs"><span class="stage-mark" data-ui="stageAMark"></span><span data-ui="stageA"></span></h2>
+  <section class="panel" id="needs-panel" aria-labelledby="h-needs">
+    <div class="panel-head"><h3 id="h-needs" data-ui="needs"></h3><p class="hint" data-ui="needsHint"></p></div>
+    <ul class="needs" id="needs"></ul>
+  </section>
+  </section>
+
+  <section class="stage stage-b" id="stage-prefs" aria-labelledby="s-prefs">
+    <h2 class="stage-title" id="s-prefs"><span class="stage-mark" data-ui="stageBMark"></span><span data-ui="stageB"></span></h2>
+  <section class="panel" aria-labelledby="h-controls">
+    <div class="panel-head"><h3 id="h-controls" data-ui="prefs"></h3><p class="hint" data-ui="prefsHint"></p></div>
+    <div class="controls">
+      <div>
+        <p class="eyebrow" data-ui="hardLabel"></p>
+        <div class="toggles" id="hard"></div>
+        <div class="budget">
+          <div class="budget-row"><span id="budget-label" data-ui="budget"></span><span class="num" id="budget-out"></span></div>
+          <div class="range2" role="group" aria-labelledby="budget-label">
+            <div class="range2-fill" id="r2fill"></div>
+            <input type="range" id="pmin">
+            <input type="range" id="pmax">
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="eyebrow" data-ui="softLabel"></p>
+        <div class="weights" id="weights"></div>
+      </div>
+    </div>
+  </section>
+  </section>
+
+  <section class="stage stage-c" id="stage-results" aria-labelledby="s-results">
+    <h2 class="stage-title" id="s-results"><span class="stage-mark" data-ui="stageCMark"></span><span data-ui="stageC"></span></h2>
+  <section class="panel" aria-labelledby="h-top" aria-live="polite">
+    <div class="panel-head"><h3 id="h-top" data-ui="top"></h3><p class="hint" id="top-hint"></p></div>
+    <ol class="top-list" id="top"></ol>
+  </section>
+
+  <section class="panel" aria-labelledby="h-cmp" aria-live="polite">
+    <div class="panel-head"><h3 id="h-cmp" data-ui="compare"></h3><p class="hint" data-ui="compareHint"></p></div>
+    <div class="cmp-scroll"><table class="cmp" id="cmp"></table></div>
+  </section>
+
+  <div class="charts">
+    <section class="panel" aria-labelledby="h-scatter">
+      <div class="panel-head"><h3 id="h-scatter" data-ui="scatter"></h3><p class="hint" data-ui="scatterHint"></p></div>
+      <div class="pick" id="scatter-pick" role="group"></div>
+      <svg id="scatter" viewBox="0 0 520 340" role="img"></svg>
+      <div class="legend">
+        <span class="key"><span class="swatch" style="background:var(--accent)"></span> <span data-ui="passDot"></span></span>
+        <span class="key"><span class="swatch ring"></span> <span data-ui="failKey"></span></span>
+        <span class="key"><span class="swatch line"></span> <span data-ui="budgetLine"></span></span>
+      </div>
+    </section>
+    <section class="panel" aria-labelledby="h-radar">
+      <div class="panel-head"><h3 id="h-radar" data-ui="radar"></h3><p class="hint" data-ui="radarHint"></p></div>
+      <div class="pick" id="radar-pick" role="group"></div>
+      <svg id="radar" viewBox="0 0 420 380" role="img"></svg>
+      <div class="legend" id="radar-legend"></div>
+    </section>
+  </div>
+  </section>
+
+  <p class="sources" id="sources" hidden></p>
+  <footer class="notes" id="notes"></footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+// === DATA START === (replace this whole block per session; keep the field names)
+const DATA = {
+  lang: "he", dir: "rtl", locale: "he-IL", currency: "₪",
+  title: "מעטפת בחירת מחשב",
+  lede: "קריטריונים קשיחים מסננים דגמים. קריטריונים גמישים מקבלים משקל וציון. המחיר מוצג על ציר נפרד, כי הוא שאלה של \"כמה לשלם על עוד התאמה\". הציונים (1–5) הם הערכה לפי המפרט, לא מדידה.",
+  needs: [
+    "מי אתה: עובד שמשלב עבודה במשרד ובבית, בעיקר דפדפן עם הרבה לשוניות, אופיס וכלי פיתוח קלים.",
+    "ניידות: נושא את המחשב ביום-יום, מעדיף קל. ביצועים: מספיק מהר כדי שלא יתקע, בלי צורך בגרפיקה חזקה.",
+    "שימוש: כ-8 שעות ביום, מחובר לעמדת עבודה עם מסך חיצוני. חשוב לו נוחות מקלדת, עמידות ואחריות ארוכה."
+  ],
+  budget: { step: 100 },
+  sources: ["קטלוג מצורף ל-Skill, עודכן 19.10.2026", "חיפוש ברשת, 19.10.2026"],
+  notes: [
+    "מחירים: ThinkPad E14 Gen 7, E14 Gen 6 והמחשב מסופר-פארם נבדקו ב-19.10.2026. מחירי IdeaPad Slim 5 ו-Slim 3 נבדקו ב-5.10.2026.",
+    "ציון ההתאמה = ממוצע הציונים, משוקלל לפי המשקלות שבחרת, בסולם 0–100. ברדאר: היכן שצורת הדגם בתוך הקו המקווקו, הוא חלש במשהו שחשוב לך."
+  ],
+  ui: {
+    stageAMark: "א", stageA: "צרכי המשתמש", stageBMark: "ב", stageB: "ניתוח ההעדפות", stageCMark: "ג", stageC: "התאמות",
+    needs: "הצרכים שלך", needsHint: "סיכום השיחה", prefs: "ההעדפות שלך", prefsHint: "שנה ערכים, והדירוג מתעדכן מיד",
+    hardLabel: "קשיח · חובה", softLabel: "גמיש · משקל 0 עד 5", budget: "טווח מחירים", priceFrom: "מחיר מינימום", priceTo: "מחיר מקסימום",
+    top: "ההתאמות הטובות ביותר", compare: "השוואת המובילים", compareHint: "עד 3 הדגמים הראשונים בדירוג",
+    specBrand: "יצרן", specCpu: "מעבד", specMemory: "זיכרון", specStorage: "אחסון (גודל וסוג)", specGpu: "כרטיס מסך", specScreen: "מסך", specWeight: "משקל", specMisc: "שונות",
+    failKey: "נפסל",
+    scatter: "התאמה מול מחיר", scatterHint: "הכי טוב: ימינה ולמטה", passDot: "עובר את המסנן", budgetLine: "מקסימום", minLine: "מינימום",
+    xAxis: "ציון התאמה (0–100) →", yAxis: "מחיר",
+    radar: "המעטפת מול הדגמים שבחרת", radarHint: "קו מקווקו = כמה חשוב לך כל קריטריון", envelope: "המעטפת שלך", noneRadar: "לא נבחרו דגמים להצגה", pickLabel: "הצג:",
+    fit: "התאמה", overBudget: "מעל הטווח", underRange: "מתחת לטווח",
+    addedByYou: "ההצעה שלך", bestValue: "הכי משתלם", bestValueHint: g => `הזול ביותר מבין הדגמים שבטווח ${g} נקודות מההתאמה הגבוהה ביותר`,
+    passCount: (n, t) => `${n} מתוך ${t} דגמים עוברים את המסנן`,
+    none: "אף דגם לא עובר", noneHint: "הדרישות הקשיחות או התקציב מסננים את כל הדגמים. נסה להגמיש אחת מהן.",
+    sources: "מקורות ותאריכי הנתונים", failedBy: "נפסל:", collapse: "כווץ", expand: "הרחב"
+  },
+  /* need: what meets the need for this person (the target a score of 5 means); shown under the weight slider */
+  crit: [
+    { id: "perf", name: "ביצועים", w: 3, need: "Ultra 5 / Core 5 עדכני מספיק לדפדפן, אופיס וכלי פיתוח קלים" },
+    { id: "durability", name: "נוחות ועמידות", w: 5, need: "מקלדת נוחה ל-8 שעות ביום ומבנה שעומד בנשיאה יומית" },
+    { id: "prestige", name: "יוקרה ומראה", w: 4, need: "מראה מקצועי ומוקפד; פרימיום לא נדרש" },
+    { id: "expand", name: "אפשרות שדרוג", w: 2, need: "אפשר להוסיף RAM בעתיד (לא מולחם כולו)" },
+    { id: "ports", name: "חיבוריות", w: 2, need: "USB-C עם וידאו וטעינה לעמדת העבודה" },
+    { id: "weight", name: "ניידות", w: 2, need: "עד כ-1.5 ק\"ג לנשיאה יומית" },
+    { id: "service", name: "שירות ואחריות", w: 3, need: "3 שנות אחריות, רצוי בשירות באתר" },
+    { id: "storage", name: "אחסון", w: 2, need: "512GB SSD" }
+  ],
+  hard: [
+    { id: "ram", name: "לפחות 16GB RAM", on: true, test: m => m.ram >= 16, show: m => m.ram + "GB" },
+    { id: "win", name: "Windows כלול", on: true, test: m => m.win, show: m => m.win ? "כן" : "לא" },
+    { id: "warr", name: "אחריות 3 שנים", on: true, test: m => m.warranty >= 3, show: m => m.warranty === 1 ? "שנה" : m.warranty + " שנים" },
+    { id: "screen", name: "מסך 14 אינץ'", on: false, test: m => m.screen === 14, show: m => m.screen + '"' }
+  ],
+  /* added: true marks a model the person suggested later in the conversation (shown as a chip in the list) */
+  /* spec: display strings for the comparison table (brand, cpu, memory, storage, gpu, screen, weight, misc). Omit what is unknown; the table shows a dash. */
+  models: [
+    { id: "e14g7", short: "E14 Gen 7", name: "ThinkPad E14 Gen 7", sub: "21SX005DIV · BayPo / CarmelPC", price: 4688, ram: 16, win: true, warranty: 3, screen: 14, spec: { brand: "Lenovo", screen: "14\"", misc: "אחריות 3 שנים, Windows כלול" },
+      s: { perf: 3, durability: 5, prestige: 4, expand: 5, ports: 5, weight: 4, service: 5, storage: 3 } },
+    { id: "e14g7dos", short: "E14 Gen 7 no OS", name: "ThinkPad E14 Gen 7 (no Windows)", sub: "21SX0057IV · BayPo", price: 4299, ram: 16, win: false, warranty: 3, screen: 14, spec: { brand: "Lenovo", screen: "14\"", misc: "ללא Windows" },
+      s: { perf: 3, durability: 5, prestige: 4, expand: 5, ports: 5, weight: 4, service: 5, storage: 3 } },
+    { id: "slim5", short: "Slim 5", name: "IdeaPad Slim 5 14IMH10", sub: "Ultra 5 135H · מחסני חשמל", price: 3789, ram: 16, win: true, warranty: 3, screen: 14, spec: { brand: "Lenovo", cpu: "Intel Core Ultra 5 135H", memory: "16GB", screen: "14\"", misc: "אחריות 3 שנים" },
+      s: { perf: 5, durability: 3, prestige: 4, expand: 4, ports: 3, weight: 3, service: 4, storage: 3 } },
+    { id: "e14g6", short: "E14 Gen 6", name: "ThinkPad E14 Gen 6", sub: "21M7000RIV · 8GB / 256GB", price: 3612, ram: 8, win: false, warranty: 3, screen: 14, spec: { brand: "Lenovo", memory: "8GB", storage: "256GB", screen: "14\"" },
+      s: { perf: 2, durability: 5, prestige: 3, expand: 4, ports: 4, weight: 4, service: 5, storage: 1 } },
+    { id: "slim3", short: "Slim 3", name: "IdeaPad Slim 3 15IRH10", sub: "i7-13620H · 15.3\"", price: 3140, ram: 16, win: true, warranty: 1, screen: 15.3, spec: { brand: "Lenovo", cpu: "Intel Core i7-13620H", memory: "16GB DDR5", storage: "512GB SSD", gpu: "Intel UHD Graphics (משולב)", screen: "15.3\" 1920x1200 IPS", weight: "1.63 ק\"ג", misc: "מצלמת IR, Wi-Fi 6, ללא מערכת הפעלה" },
+      s: { perf: 4, durability: 3, prestige: 2, expand: 3, ports: 3, weight: 2, service: 2, storage: 3 } }
+  ]
+};
+// === DATA END ===
+
+/* a ui string missing from DATA shows as blank instead of breaking the page (works as text and as a function) */
+const BLANK = Object.assign(() => "", { toString: () => "" });
+const UI = new Proxy(DATA.ui || {}, { get: (t, k) => (k in t ? t[k] : BLANK) });
+const CRIT = DATA.crit, HARD = DATA.hard, MODELS = DATA.models;
+/* price range: slider bounds come from the cheapest and the most expensive model */
+const STEP = DATA.budget.step || 100;
+const P_LO = Math.floor(Math.min(...MODELS.map(m => m.price)) / STEP) * STEP;
+const P_HI = Math.max(Math.ceil(Math.max(...MODELS.map(m => m.price)) / STEP) * STEP, P_LO + STEP);
+/* the slider reaches past the cheapest and the dearest model by 1,000-2,000 (a quarter of the spread), so the person can widen the range */
+const PAD = DATA.budget.pad ?? Math.min(2000, Math.max(1000, Math.round((P_HI - P_LO) / 4 / STEP) * STEP));
+const S_LO = Math.max(0, P_LO - PAD), S_HI = P_HI + PAD;
+const state = { weights: Object.fromEntries(CRIT.map(c => [c.id, c.w])), hard: Object.fromEntries(HARD.map(h => [h.id, h.on])),
+  priceMin: P_LO, priceMax: Math.min(Math.max(DATA.budget.value ?? P_HI, P_LO + STEP), S_HI) };
+const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString(DATA.locale) + " " + DATA.currency;
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+
+function fitScore(m) {
+  const tw = CRIT.reduce((a, c) => a + state.weights[c.id], 0);
+  if (!tw) return 0;
+  return Math.round(CRIT.reduce((a, c) => a + state.weights[c.id] * m.s[c.id], 0) / (tw * 5) * 100);
+}
+function failures(m) {
+  const f = HARD.filter(h => state.hard[h.id] && !h.test(m)).map(h => h.name);
+  if (m.price > state.priceMax) f.push(UI.overBudget);
+  if (m.price < state.priceMin) f.push(UI.underRange);
+  return f;
+}
+
+/* static text and direction */
+document.documentElement.lang = DATA.lang; document.documentElement.dir = DATA.dir;
+document.title = DATA.title; $("t-title").textContent = DATA.title; $("t-lede").textContent = DATA.lede;
+document.querySelectorAll("[data-ui]").forEach(n => n.textContent = UI[n.dataset.ui]);
+$("notes").innerHTML = DATA.notes.map(t => `<p>${t}</p>`).join("");
+if (DATA.sources && DATA.sources.length) {
+  const src = $("sources"); src.hidden = false;
+  const b = document.createElement("strong"); b.textContent = UI.sources + ": ";
+  src.append(b, DATA.sources.join(" · "));
+}
+if (DATA.needs && DATA.needs.length) {
+  $("stage-needs").hidden = false;
+  DATA.needs.forEach(t => { const li = document.createElement("li"); li.textContent = t; $("needs").appendChild(li); });
+}
+const pmin = $("pmin"), pmax = $("pmax");
+Object.assign(pmin, { min: S_LO, max: S_HI, step: STEP, value: state.priceMin }); pmin.setAttribute("aria-label", UI.priceFrom);
+Object.assign(pmax, { min: S_LO, max: S_HI, step: STEP, value: state.priceMax }); pmax.setAttribute("aria-label", UI.priceTo);
+function syncRange() {
+  const a = (state.priceMin - S_LO) / (S_HI - S_LO) * 100, b = (S_HI - state.priceMax) / (S_HI - S_LO) * 100;
+  const f = $("r2fill");
+  f.style.insetInlineStart = `calc(${a}% + ${10 - a * 0.2}px)`; f.style.insetInlineEnd = `calc(${b}% + ${10 - b * 0.2}px)`;
+  pmin.style.zIndex = state.priceMin > (S_LO + S_HI) / 2 ? 4 : 2; pmax.style.zIndex = 3;
+}
+$("scatter").setAttribute("aria-label", UI.scatter); $("radar").setAttribute("aria-label", UI.radar);
+
+/* collapsible panels: the header row stays, the rest hides */
+document.querySelectorAll(".panel").forEach(panel => {
+  const head = panel.querySelector(".panel-head"), h2 = head.querySelector("h3");
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.className = "collapse-btn"; btn.setAttribute("aria-expanded", "true");
+  const sync = () => { const c = panel.classList.contains("collapsed"); btn.setAttribute("aria-expanded", String(!c)); btn.setAttribute("aria-label", (c ? UI.expand : UI.collapse) + ": " + h2.textContent); };
+  const toggle = () => { panel.classList.toggle("collapsed"); sync(); fitTopList(); };
+  h2.prepend(btn); sync();
+  btn.addEventListener("click", e => { e.stopPropagation(); toggle(); });
+  head.addEventListener("click", toggle);
+});
+
+/* controls */
+HARD.forEach(h => {
+  const lab = document.createElement("label"); lab.className = "toggle"; lab.htmlFor = "h-" + h.id;
+  lab.innerHTML = `<input type="checkbox" id="h-${h.id}" ${h.on ? "checked" : ""}><span>${h.name}</span>`;
+  lab.querySelector("input").addEventListener("change", e => { state.hard[h.id] = e.target.checked; render(); });
+  $("hard").appendChild(lab);
+});
+pmin.addEventListener("input", () => { state.priceMin = Math.min(+pmin.value, state.priceMax - STEP); pmin.value = state.priceMin; render(); });
+pmax.addEventListener("input", () => { state.priceMax = Math.max(+pmax.value, state.priceMin + STEP); pmax.value = state.priceMax; render(); });
+CRIT.forEach(c => {
+  const d = document.createElement("div"); d.className = "w";
+  d.innerHTML = `<div class="w-top"><label for="w-${c.id}">${c.name}</label><span class="w-val num" id="wv-${c.id}">${c.w}</span></div><input type="range" id="w-${c.id}" min="0" max="5" step="1" value="${c.w}"${c.need ? ` aria-describedby="wn-${c.id}"` : ""}>${c.need ? `<p class="w-need" id="wn-${c.id}">${c.need}</p>` : ""}`;
+  d.querySelector("input").addEventListener("input", e => { state.weights[c.id] = +e.target.value; $("wv-" + c.id).textContent = e.target.value; render(); });
+  $("weights").appendChild(d);
+});
+
+/* which models each chart shows: the scatter starts with all of them, the radar follows the top 3 until the person picks */
+state.scatterSel = new Set(MODELS.map(m => m.id));
+state.radarSel = null;
+const colorOf = m => `var(--series-${MODELS.indexOf(m) % 8 + 1})`;
+function drawPick(boxId, chosen, rows, withColor, onToggle) {
+  const box = $(boxId);
+  box.setAttribute("aria-label", UI.pickLabel);
+  box.innerHTML = `<span class="pick-label">${UI.pickLabel}</span>` + MODELS.map(m => {
+    const r = rows.find(x => x.m === m), failed = r && r.fails.length > 0;
+    return `<button type="button" class="pick-chip${failed ? " is-fail" : ""}" data-id="${m.id}" aria-pressed="${chosen.has(m.id)}"${failed ? ` title="${UI.failedBy} ${r.fails.join(", ")}"` : ""}>${withColor ? `<span class="swatch" style="background:${colorOf(m)}"></span>` : ""}${m.short || m.name}</button>`;
+  }).join("");
+  box.onclick = e => { const b = e.target.closest(".pick-chip"); if (b) { onToggle(b.dataset.id); render(); } };
+}
+const flip = (set, id) => { set.has(id) ? set.delete(id) : set.add(id); };
+
+/* tooltip */
+const tip = $("tip");
+function showTip(html, ev) { tip.innerHTML = html; tip.hidden = false; moveTip(ev); }
+function moveTip(ev) { const x = Math.min(ev.clientX + 14, window.innerWidth - tip.offsetWidth - 8); tip.style.left = Math.max(8, x) + "px"; tip.style.top = (ev.clientY + 14) + "px"; }
+function hideTip() { tip.hidden = true; }
+
+function fitTopList() {
+  /* show five rows and half of the sixth, so it is clear the list scrolls */
+  const list = $("top"), rows = list.children;
+  list.classList.toggle("scrolls", rows.length > 5);
+  list.style.maxHeight = "";
+  if (rows.length > 5 && rows[5].offsetHeight) list.style.maxHeight = (rows[5].offsetTop - list.offsetTop + rows[5].offsetHeight / 2) + "px";
+}
+
+function render() {
+  $("budget-out").textContent = fmt(state.priceMin) + " – " + fmt(state.priceMax);
+  syncRange();
+  const rows = MODELS.map(m => ({ m, score: fitScore(m), fails: failures(m) }))
+    .sort((a, b) => (a.fails.length > 0) - (b.fails.length > 0) || b.score - a.score || a.m.price - b.m.price);
+  const passing = rows.filter(r => !r.fails.length);
+
+  /* top picks: every model that passes the filters, best fit first; scrolls after 5 */
+  const list = $("top");
+  $("top-hint").textContent = UI.passCount(passing.length, MODELS.length);
+  if (passing.length) {
+    /* best value: the cheapest passing model whose fit is within valueGap points of the best fit */
+    const gap = DATA.valueGap ?? 5;
+    const value = passing.length > 1 ? passing.filter(r => r.score >= passing[0].score - gap).reduce((a, b) => b.m.price < a.m.price ? b : a) : null;
+    list.innerHTML = passing.map((r, i) => `<li class="top-row"><span class="rank">${i + 1}</span><span><span class="model-name">${r.m.name}${r === value ? `<span class="chip value" title="${UI.bestValueHint(gap)}">${UI.bestValue}</span>` : ""}${r.m.added ? `<span class="chip added">${UI.addedByYou}</span>` : ""}</span><span class="model-sub">${r.m.sub}</span></span><span class="top-price">${fmt(r.m.price)}</span><span class="top-fit">${r.score}/100</span></li>`).join("");
+    fitTopList();
+  } else {
+    list.innerHTML = `<li class="top-empty"><span class="chip fail">${UI.none}</span><span>${UI.noneHint}</span></li>`;
+  }
+
+  /* comparison table: top 3 passing models, fixed technical rows; unknown values show a dash */
+  const cols = passing.slice(0, 3), cmp = $("cmp");
+  const rowDefs = [["brand", "specBrand"], ["cpu", "specCpu"], ["memory", "specMemory"], ["storage", "specStorage"], ["gpu", "specGpu"], ["screen", "specScreen"], ["weight", "specWeight"], ["misc", "specMisc"]]
+    .filter(([k]) => k !== "gpu" || cols.some(r => r.m.spec && r.m.spec.gpu));
+  if (cols.length) {
+    cmp.innerHTML = `<thead><tr><th></th>${cols.map((r, i) => `<th scope="col"><span class="col-name">${i + 1}. ${r.m.name}</span><span class="col-meta">${fmt(r.m.price)} · ${r.score}/100</span></th>`).join("")}</tr></thead><tbody>` +
+      rowDefs.map(([k, label]) => `<tr><th scope="row">${UI[label]}</th>${cols.map(r => { const v = r.m.spec && r.m.spec[k]; return v ? `<td>${v}</td>` : `<td class="unknown">—</td>`; }).join("")}</tr>`).join("") + "</tbody>";
+  } else {
+    cmp.innerHTML = `<tbody><tr><td>${UI.noneHint}</td></tr></tbody>`;
+  }
+
+  const radarIds = state.radarSel || new Set(passing.slice(0, 3).map(r => r.m.id));
+  drawPick("scatter-pick", state.scatterSel, rows, false, id => flip(state.scatterSel, id));
+  drawPick("radar-pick", radarIds, rows, true, id => { state.radarSel = state.radarSel || new Set(radarIds); flip(state.radarSel, id); });
+  drawScatter(rows.filter(r => state.scatterSel.has(r.m.id)));
+  drawRadar(rows.filter(r => radarIds.has(r.m.id)));
+}
+
+function drawScatter(rows) {
+  const svg = $("scatter"); svg.innerHTML = "";
+  const W = 520, H = 340, m = { l: 58, r: 20, t: 16, b: 44 };
+  const prices = [P_LO, P_HI, state.priceMin, state.priceMax];
+  const yStep = (Math.max(...prices) - Math.min(...prices)) > 4000 ? 1000 : 500;
+  const x0 = 30, x1 = 100, y0 = Math.floor(Math.min(...prices) / yStep) * yStep, y1 = Math.ceil(Math.max(...prices) / yStep) * yStep;
+  const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
+  const Y = v => H - m.b - (v - y0) / (y1 - y0) * (H - m.t - m.b);
+  for (let v = x0; v <= x1; v += 10) {
+    el("line", { x1: X(v), x2: X(v), y1: m.t, y2: H - m.b, stroke: "var(--line-soft)", "stroke-width": 1 }, svg);
+    el("text", { x: X(v), y: H - m.b + 16, "text-anchor": "middle", class: "axis-num" }, svg).textContent = v;
+  }
+  for (let v = y0; v <= y1; v += yStep) {
+    el("line", { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: "var(--line-soft)", "stroke-width": 1 }, svg);
+    el("text", { x: m.l - 8, y: Y(v) + 4, "text-anchor": "end", class: "axis-num" }, svg).textContent = v.toLocaleString(DATA.locale);
+  }
+  el("text", { x: (m.l + W - m.r) / 2, y: H - 8, "text-anchor": "middle" }, svg).textContent = UI.xAxis;
+  const yl = el("text", { x: 14, y: (m.t + H - m.b) / 2, "text-anchor": "middle", transform: `rotate(-90 14 ${(m.t + H - m.b) / 2})` }, svg);
+  yl.textContent = UI.yAxis + " (" + DATA.currency + ")";
+  /* budget line */
+  const limit = (v, label, above) => {
+    const y = Y(Math.min(Math.max(v, y0), y1));
+    el("line", { x1: m.l, x2: W - m.r, y1: y, y2: y, stroke: "var(--envelope)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, svg);
+    el("text", { x: W - m.r - 2, y: above ? y - 6 : y + 14, "text-anchor": "end", class: "lbl" }, svg).textContent = label + " " + v.toLocaleString(DATA.locale);
+  };
+  limit(state.priceMax, UI.budgetLine, true);
+  if (state.priceMin > P_LO) limit(state.priceMin, UI.minLine, false);
+
+  /* labels with simple vertical de-overlap, all placed to the right of the dot */
+  const pts = rows.map(r => ({ r, x: X(Math.max(x0, r.score)), y: Y(r.m.price) })).sort((a, b) => a.y - b.y);
+  let lastY = -Infinity;
+  pts.forEach(p => { p.ly = Math.max(p.y + 4, lastY + 14); lastY = p.ly; });
+  pts.forEach(p => {
+    const failed = p.r.fails.length > 0;
+    const right = p.x < W - 140;
+    const lx = right ? p.x + 12 : p.x - 12;
+    if (Math.abs(p.ly - (p.y + 4)) > 3) el("line", { x1: p.x + (right ? 6 : -6), y1: p.y, x2: lx + (right ? -2 : 2), y2: p.ly - 4, stroke: "var(--fg-3)", "stroke-width": 0.75 }, svg);
+    el("text", { x: lx, y: p.ly, "text-anchor": right ? "start" : "end", class: "lbl" + (failed ? " dim" : "") }, svg).textContent = (p.r.m.short || p.r.m.name);
+    const g = el("g", {}, svg);
+    el("circle", { cx: p.x, cy: p.y, r: 14, fill: "transparent" }, g);
+    el("circle", { class: "dot", cx: p.x, cy: p.y, r: 6, fill: failed ? "var(--surface)" : "var(--accent)", stroke: failed ? "var(--fail)" : "var(--surface)", "stroke-width": 2 }, g);
+    const html = `<b>${p.r.m.name}</b><br>${UI.fit} ${p.r.score}/100 · ${fmt(p.r.m.price)}${failed ? "<br>" + UI.failedBy + " " + p.r.fails.join(", ") : ""}`;
+    g.addEventListener("mouseenter", e => showTip(html, e));
+    g.addEventListener("mousemove", moveTip);
+    g.addEventListener("mouseleave", hideTip);
+  });
+}
+
+function drawRadar(top) {
+  const svg = $("radar"); svg.innerHTML = "";
+  const cx = 210, cy = 188, R = 128, n = CRIT.length;
+  const pt = (i, v) => { const a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + Math.cos(a) * R * v / 5, cy + Math.sin(a) * R * v / 5]; };
+  for (let k = 1; k <= 5; k++) {
+    el("polygon", { points: CRIT.map((_, i) => pt(i, k).join(",")).join(" "), fill: "none", stroke: "var(--line)", "stroke-width": 1 }, svg);
+  }
+  CRIT.forEach((c, i) => {
+    const [x, y] = pt(i, 5);
+    el("line", { x1: cx, y1: cy, x2: x, y2: y, stroke: "var(--line)", "stroke-width": 1 }, svg);
+    const [lx, ly] = pt(i, 5.75);
+    const anchor = Math.abs(lx - cx) < 8 ? "middle" : lx > cx ? "start" : "end";
+    el("text", { x: lx, y: ly + 4, "text-anchor": anchor }, svg).textContent = c.name;
+  });
+  top.forEach(r => {
+    const col = colorOf(r.m);
+    const poly = el("polygon", { class: "shape", points: CRIT.map((c, i) => pt(i, r.m.s[c.id]).join(",")).join(" "), fill: col, "fill-opacity": 0.12, stroke: col, "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+    poly.addEventListener("mouseenter", e => showTip(`<b>${r.m.name}</b><br>${UI.fit} ${r.score}/100`, e));
+    poly.addEventListener("mousemove", moveTip);
+    poly.addEventListener("mouseleave", hideTip);
+  });
+  el("polygon", { points: CRIT.map((c, i) => pt(i, state.weights[c.id]).join(",")).join(" "), fill: "none", stroke: "var(--envelope)", "stroke-width": 2, "stroke-dasharray": "5 4", "pointer-events": "none" }, svg);
+  const lg = $("radar-legend");
+  lg.innerHTML = `<span class="key"><span class="swatch line"></span> ${UI.envelope}</span>` + (top.length ? "" : `<span>${UI.noneRadar}</span>`);
+}
+
+render();
+</script>

@@ -1,0 +1,6 @@
+{
+  "_comment": "Where the skill looks for its laptop catalog. Set remote_catalog_base_url to the folder on your server that holds laptops.json, brands.json, cpus.json and gpus.json (no trailing slash). null = skip the remote catalog and use the bundled copy.",
+  "remote_catalog_base_url": "https://purchase-adviser.onrender.com",
+  "files": ["laptops.json", "brands.json", "cpus.json", "gpus.json"],
+  "min_version": 1
+}
