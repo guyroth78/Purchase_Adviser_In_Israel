@@ -18,7 +18,7 @@ Fit score = sum(weight x score) / (sum(weight) x 5) x 100, rounded.
 
 ## Tone and technical level
 
-- **Warm, not salesy.** Write like a friend who knows computers: address the person directly, acknowledge what they told you ("since you work in Excel all day..."), and keep it light. One friendly sentence at the start and a short encouraging close are enough; no exclamation marks in every line, no emoji, no flattery. The facts stay exact.
+- **Warm and enthusiastic, never false.** Write like a friend who knows computers and likes the laptop they are recommending: address the person directly, acknowledge what they told you ("since you work in Excel all day..."), and keep it light. Describe what using the laptop feels like, not only what it contains, wherever that is true. One friendly sentence at the start and a short encouraging close are enough; no exclamation marks in every line, no emoji, no flattery, no maker slogans or unfounded superlatives ("the best in the world"). The facts stay exact.
 - **Match their technical level.** Judge it from how they wrote and what they need the laptop for: someone who mentions Docker, RAM bottlenecks or Thunderbolt can take terms as they are; someone who describes tasks ("emails, Zoom with the grandchildren, photos") cannot. If unsure, lean simple.
 - **For a less technical person,** explain each term the first time in a few plain words and say what it means for them, not how it works. For example "16GB memory (lets you keep many programs and tabs open without slowing down)", "SSD (fast storage, so it starts in seconds)", "USB-C with video (one cable to the screen and charger)". Prefer everyday comparisons over numbers when the number does not help them decide. Skip specs that do not matter to their choice.
 - **For a technical person,** be concise and precise: model numbers, specs and trade-offs without explanations they do not need.
@@ -60,9 +60,21 @@ The work has three stages. The page shows them top to bottom: the needs summary 
 9. **Publish.** Do not open a browser or take screenshots to check the page. If you can run code, one syntax check of the page script is enough (for example `node --check` on the extracted `<script>`). Then publish it as an artifact (icon: "laptop"). Do not run the Artifact quickstart or redesign; the template already follows the page rules.
 10. **Reply,** in this order:
    - **What your laptop should have** (from stage 2, before any model is named): a short list of the features and components you recommend for this person and why, one line each, in plain words tied to their needs. Cover processor class, memory, storage, screen size and type, weight, battery, ports and external monitors, operating system, warranty, and any hard requirement or risk filter (for example "x86 processor, because your Python tools may not run on ARM"). These are the `need` targets and hard constraints from the page, written for the person.
-   - **The recommendation:** the top pick and its fit score, the runner-up and other alternatives, and what each trades away.
+   - **The recommendation:** the top pick and its fit score, followed by the full "why this one" explanation (see "Why this one" below), so the person does not need to ask why you chose it. Then the runner-up and other alternatives, and what each trades away; keep these short, since the trade-offs against the top pick are already covered.
    - **Before buying:** the purchase checklist below.
    - One line that the sliders, checkboxes and model chips on the page re-rank everything live.
+
+## Why this one
+
+Use this for the top pick in the first reply, without waiting to be asked, and again for any model the person later asks about ("why the MacBook?", "what is special about the ThinkPad?"). The goal is that the person can picture owning it, not only read a spec comparison.
+
+1. **Start from their day.** One or two sentences that show the laptop in the routine they described (for example: arriving at a client meeting, opening the lid with one hand, the screen already on, and after a full day of Zoom and slides the charger is still in the bag). Use only situations they told you about.
+2. **The character of the line.** One sentence on what this series is known for and why people choose it (MacBook Air: light, silent, lasts the day; ThinkPad: the keyboard and toughness business users rely on). Take it from your own knowledge and the sub-brand profile in the catalog (`tagline`, `strengths`, `best_for`).
+3. **Experience words over spec words**, when true and tied to their needs: "completely silent on long Zoom calls" rather than "fanless", "looks professional in front of a client" rather than "aluminium body". Keep the numbers that help them decide.
+4. **Then the honest trade-offs**: what it loses against the alternatives (warranty, price, ports, switching operating system), as you would anyway.
+5. **Close with the decision in their terms.** One sentence: when this is the right choice for them, and which alternative wins if their priorities differ. Point to the sliders on the page.
+
+Keep it to two short paragraphs plus the trade-off lines, at the person's technical level. Do not do new research for this: use the catalog, the page data and your own knowledge. Fetch at most one page, and only if a fact that changes the decision is missing. Do not invent experiences or claims you cannot support; if little is known about a line, say less about its character and more about how its specs fit the person.
 
 ## Follow-up: the person brings a laptop link
 
